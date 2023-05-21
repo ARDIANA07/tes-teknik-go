@@ -30,6 +30,10 @@ func main() {
 	categoryRepo := category.NewPostgresCategoryRepository(db)
 	categoryService := category.NewCategoryService(categoryRepo)
 
+	// Create recipe repository and service
+	recipeRepo := recipe.NewPostgresRecipeRepository(db)
+	recipeService := recipe.NewRecipeService(recipeRepo)
+
 	router := gin.Default()
 
 	// Ingredient routes
@@ -45,6 +49,16 @@ func main() {
 	router.GET("/categories/:id", categoryHandler(categoryService.GetCategoryByID))
 	router.PUT("/categories/:id", categoryHandler(categoryService.UpdateCategory))
 	router.DELETE("/categories/:id", categoryHandler(categoryService.DeleteCategory))
+
+	// Recipe routes
+	router.GET("/recipes", recipeHandler(recipeService.GetAllRecipes))
+	router.POST("/recipes", recipeHandler(recipeService.CreateRecipe))
+	router.GET("/recipes/:id", recipeHandler(recipeService.GetRecipeByID))
+	router.PUT("/recipes/:id", recipeHandler(recipeService.UpdateRecipe))
+	router.DELETE("/recipes/:id", recipeHandler(recipeService.DeleteRecipe))
+	router.GET("/recipes", recipeHandler(recipeService.GetAllRecipes))
+	router.GET("/recipes/:id", recipeHandler(recipeService.GetRecipeByID))
+	router.GET("/recipes/search", recipeHandler(recipeService.SearchRecipes))
 
 	router.Run(":8080")
 }
