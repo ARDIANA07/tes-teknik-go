@@ -56,11 +56,9 @@ func main() {
 	router.GET("/recipes/:id", recipeHandler(recipeService.GetRecipeByID))
 	router.PUT("/recipes/:id", recipeHandler(recipeService.UpdateRecipe))
 	router.DELETE("/recipes/:id", recipeHandler(recipeService.DeleteRecipe))
-	router.GET("/recipes", recipeHandler(recipeService.GetAllRecipes))
-	router.GET("/recipes/:id", recipeHandler(recipeService.GetRecipeByID))
 	router.GET("/recipes/search", recipeHandler(recipeService.SearchRecipes))
 
-	router.Run(":8080")
+	router.Run()
 }
 
 type ingredientHandlerFunc func(c *gin.Context, service *ingredient.IngredientService) (interface{}, error)
